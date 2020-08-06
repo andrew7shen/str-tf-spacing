@@ -17,5 +17,5 @@ fi
 for tfpair in $(ls my_comp_all)
 do
 	mkdir my_intersect_all/${tfpair}
-	intersectBed -a /storage/mgymrek/platinum-genomes/trio-analysis/gangstr/hg19_ver13_1.bed -b my_comp_all/${tfpair}/${tfpair}_final.bed > my_intersect_all/${tfpair}/${tfpair}_intersect.bed
+	intersectBed -a /storage/mgymrek/platinum-genomes/trio-analysis/gangstr/hg19_ver13_1.bed -b my_comp_all/${tfpair}/${tfpair}_final.bed > my_intersect_all/${tfpair}/${tfpair}_intersect.bed -f 1.0 -wa -wb
 done

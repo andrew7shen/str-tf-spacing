@@ -4,8 +4,17 @@
 #	   runs calcStartEnd.py for more formatting
 
 #tf_paths is an array of the paths of the transcription factor fimo files
-tf_paths=()
 
+if test -d my_comp_all; then
+        echo "directory exists"
+        rm -r my_comp_all
+        mkdir my_comp_all
+else
+    	echo "directory doesn't exist"
+        mkdir my_comp_all
+fi
+
+tf_paths=()
 for tf in $(ls my_fimo_all)
 do
 	tf_paths+=(my_fimo_all/${tf})	
@@ -31,6 +40,6 @@ do
 		awk -v"tf1=$tf1" -v"tf2=$tf2" '{ if($9<50) print $1 "\t" "START" "\t" "END" "\t" tf1 "\t" $4 "\t" $2 "\t" $3 "\t" tf2 "\t" $8 "\t" $6 "\t" $7}' my_comp_all/${pair_name}/${pair_name}_closest.bed > my_comp_all/${pair_name}/${pair_name}_organized.bed
 
 		#INCLUDE START/END
-		python calcStartEnd.py my_comp_all/${pair_name}/${pair_name}_organized.bed > my_comp_all/${pair_name}/${pair_name}_final.bed
+		python str-tf-spacing/calcStartEnd.py my_comp_all/${pair_name}/${pair_name}_organized.bed > my_comp_all/${pair_name}/${pair_name}_final.bed
 	done
 done
