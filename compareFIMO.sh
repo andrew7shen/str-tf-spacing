@@ -37,7 +37,7 @@ do
 
 		#ONLY VALUES 50BP APART
 		#ISSUE: how can it recognize tf1 and tf2
-		awk -v"tf1=$tf1" -v"tf2=$tf2" '{ if($9<50) print $1 "\t" "START" "\t" "END" "\t" tf1 "\t" $4 "\t" $2 "\t" $3 "\t" tf2 "\t" $8 "\t" $6 "\t" $7}' my_comp_all/${pair_name}/${pair_name}_closest.bed > my_comp_all/${pair_name}/${pair_name}_organized.bed
+		awk -v"tf1=$tf1" -v"tf2=$tf2" '{ if($9<500) print $1 "\t" "START" "\t" "END" "\t" tf1 "\t" $4 "\t" $2 "\t" $3 "\t" tf2 "\t" $8 "\t" $6 "\t" $7}' my_comp_all/${pair_name}/${pair_name}_closest.bed > my_comp_all/${pair_name}/${pair_name}_organized.bed
 
 		#INCLUDE START/END
 		python str-tf-spacing/calcStartEnd.py my_comp_all/${pair_name}/${pair_name}_organized.bed > my_comp_all/${pair_name}/${pair_name}_final.bed
