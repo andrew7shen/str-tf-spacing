@@ -22,6 +22,8 @@ for line2 in f2_split:
 	L = ""
 	line2_split = line2.split()
 
+	lines = 0
+
 	if counter == 0:
 		L = L + line2_split[0] + "\t" + line2_split[1] + "\t" + line2_split[2] + "\t" + line2_split[3] + "\t" + line2_split[4] + "\t" + line2_split[5] + "\t" + line2_split[6] + "\t" + line2_split[7] + "\t" + line2_split[8] + "\t" + line2_split[9] + "\t" + line2_split[10] + "\t" + line2_split[11] + "\t" + line2_split[12] + "\t" + line2_split[13] + "\t" + line2_split[14] + "\t" + line2_split[15] + "\n"
 		counter = counter+1
@@ -37,9 +39,9 @@ for line2 in f2_split:
 		sixes = 0
 		analyzed = "No"
 		eSTR = "No"
-		pval = 0
-		beta = 0
-		score = 0
+		pval = "N/A"
+		beta = "N/A"
+		score = "N/A"
 		for line1 in f1_split:
 			line1_split = line1.split()
 
@@ -59,26 +61,43 @@ for line2 in f2_split:
 	                        	fives = fives+1
 				if line1_split[3] == "6":
 	        	                sixes = sixes+1
-			
-			print("hits and length calculated")			
 
-			for line3 in f3_split:
-	                        line3_split = line3.split()
-        	                if (line3_split[0] == line1_split[0]) and (line3_split[1] == line1_split[1]) and (line3_split[2] == line1_split[2]):
-					analyzed = "Yes"
-					
-			print("all analyzed calculated")
-			
-			for line4 in f4_split:
-                                line4_split = line4.split()
-				if (line4_split[0] == line1_split[0]) and (line4_split[1] == line1_split[1]) and (line4_split[9] == line1_split[2]):
-                                        eSTR = "Yes"
-					pval = line4_split[5]
-					beta = line4_split[6]
-					score = line4_split[7]
 
-			print("eSTR calculated")
-			
-		L = L + str(hit_count) + "\t" + str(ones) + "\t" + str(twos) + "\t" + str(threes) + "\t" + str(fours) + "\t" + str(fives) + "\t" + str(sixes) + "\t" + analyzed + "\t" + eSTR + "\t" + str(pval) + "\t" + str(beta) + "\t" + str(score) + "\n" 
+
+
+#		check if in analyzed 		
+		for line1 in f1_split:
+			line1_split = line1.split()
+			tf_analyzed = line1_split[0] + "\t" + line1_split[1] + "\t" + line1_split[2]
+			#print(tf_analyzed)
+			with open('/storage/mgymrek/gtex-estrs/revision/misc/all_analyzed_strs_v2.tab') as f:
+				if tf_analyzed in f.read():
+                                	analyzed = "Yes"
+					break
+
+#		check if in eSTR
+		for line1 in f1_split:
+			line1_split = line1.split()
+                      	tf_eSTR = line1_split[0] + "\t" + line1_split[1]
+                      	with open('/storage/mgymrek/gtex-estrs/revision/figures/SuppTable_CAVIAR.tsv') as f_eSTR:
+				if tf_eSTR in f_eSTR.read():
+					#print("\t" + "exists")
+					for line4 in f4_split:
+	                                	line4_split = line4.split()
+	               	                       	if (line4_split[0] == line1_split[0]) and (line4_split[1] == line1_split[1]) and (line4_split[9] == line1_split[2]) and (line1_split[18] == line2_split[0]):
+                        	                	eSTR = "Yes"
+                                	               	pval = line4_split[5]
+                                        	       	beta = line4_split[6]
+                                              		score = line4_split[7]
+							#print("\t" + "eSTR match")
+							break
+					break
+				else:
+					break
+				
+
+		L = L + str(hit_count) + "\t" + str(ones) + "\t" + str(twos) + "\t" + str(threes) + "\t" + str(fours) + "\t" + str(fives) + "\t" + str(sixes) + "\t" + analyzed + "\t" + eSTR + "\t" + pval + "\t" + beta + "\t" + score + "\n" 
+	
 	f5.write(L)
 	print(line2_split[0] + " finished")
+
